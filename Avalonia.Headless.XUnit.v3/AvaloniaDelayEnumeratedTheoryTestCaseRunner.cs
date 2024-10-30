@@ -5,13 +5,13 @@ using Xunit.v3;
 
 namespace Avalonia.Headless.XUnit.v3;
 
-internal class AvaloniaDelayEnumeratedTheoryTestCaseRunner : XunitTestCaseRunnerBase<AvaloniaDelayEnumeratedTheoryTestCaseRunnerContext, IXunitTestCase>
+internal class AvaloniaDelayEnumeratedTheoryTestCaseRunner : XunitTestCaseRunner
 {
     protected AvaloniaDelayEnumeratedTheoryTestCaseRunner()
     {
     }
 
-    public static AvaloniaDelayEnumeratedTheoryTestCaseRunner Instance { get; } = new();
+    public new static AvaloniaDelayEnumeratedTheoryTestCaseRunner Instance { get; } = new();
 
     public async ValueTask<RunSummary> RunDispatcherAsync(
         HeadlessUnitTestSession session,
@@ -32,7 +32,7 @@ internal class AvaloniaDelayEnumeratedTheoryTestCaseRunner : XunitTestCaseRunner
 
         testMethodArguments = ResolveTestMethodArguments(testCase, testMethodArguments);
 
-        await using var ctxt = new AvaloniaDelayEnumeratedTheoryTestCaseRunnerContext(session, testCase, messageBus, aggregator, cancellationTokenSource, displayName, skipReason, explicitOption, constructorArguments, testMethodArguments);
+        await using var ctxt = new XunitDelayEnumeratedTheoryTestCaseRunnerContext(testCase, messageBus, aggregator, cancellationTokenSource, displayName, skipReason, explicitOption, constructorArguments, testMethodArguments);
         await ctxt.InitializeAsync();
 
         var result = await session.Dispatch(async () => await RunAsync(ctxt), cancellationTokenSource.Token);
