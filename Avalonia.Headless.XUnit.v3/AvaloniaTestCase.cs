@@ -4,7 +4,7 @@ using Xunit.Sdk;
 using Xunit.v3;
 
 namespace Avalonia.Headless.XUnit.v3;
-internal sealed class AvaloniaTestCase : XunitTestCase
+internal sealed class AvaloniaTestCase : XunitTestCase, ISelfExecutingXunitTestCase
 {
     public AvaloniaTestCase(IXunitTestMethod testMethod, 
         string testCaseDisplayName, string uniqueID, 
@@ -27,12 +27,11 @@ internal sealed class AvaloniaTestCase : XunitTestCase
     {
     }
 
-    public override ValueTask<RunSummary> RunAsync(
+    public ValueTask<RunSummary> Run(
         ExplicitOption explicitOption,
-        IMessageBus messageBus,
-        object?[] constructorArguments,
-        ExceptionAggregator aggregator,
-        CancellationTokenSource cancellationTokenSource)
+        IMessageBus messageBus, object?[]
+        constructorArguments, ExceptionAggregator
+        aggregator, CancellationTokenSource cancellationTokenSource)
     {
         Guard.ArgumentNotNull(messageBus);
         Guard.ArgumentNotNull(constructorArguments);

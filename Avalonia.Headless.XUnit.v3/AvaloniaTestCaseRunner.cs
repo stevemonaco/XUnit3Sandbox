@@ -2,6 +2,7 @@
 using Xunit.Internal;
 using Xunit.Sdk;
 using Xunit.v3;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Avalonia.Headless.XUnit.v3;
 internal sealed class AvaloniaTestCaseRunner : XunitTestCaseRunner
@@ -29,12 +30,32 @@ internal sealed class AvaloniaTestCaseRunner : XunitTestCaseRunner
         Guard.ArgumentNotNull(displayName);
         Guard.ArgumentNotNull(constructorArguments);
 
-        testMethodArguments = ResolveTestMethodArguments(testCase, testMethodArguments);
+        var tests = await aggregator.RunAsync(testCase.CreateTests, []);
 
-        await using var ctxt = new XunitTestCaseRunnerContext<IXunitTestCase>(testCase, messageBus, aggregator, cancellationTokenSource, displayName, skipReason, explicitOption, constructorArguments, testMethodArguments);
+        if (aggregator.ToException() is Exception ex)
+        {
+            if (ex.Message.StartsWith(DynamicSkipToken.Value, StringComparison.Ordinal))
+                return XunitRunnerHelper.SkipTestCases(
+                    messageBus,
+                    cancellationTokenSource,
+                    [testCase],
+                    ex.Message.Substring(DynamicSkipToken.Value.Length),
+                    sendTestCaseMessages: false
+                );
+            else
+                return XunitRunnerHelper.FailTestCases(
+                    messageBus,
+                    cancellationTokenSource,
+                    [testCase],
+                    ex,
+                    sendTestCaseMessages: false
+                );
+        }
+
+        await using var ctxt = new XunitTestCaseRunnerContext(testCase, tests, messageBus, aggregator, cancellationTokenSource, displayName, skipReason, explicitOption, constructorArguments);
         await ctxt.InitializeAsync();
 
-        var result = await session.Dispatch(async () => await RunAsync(ctxt), cancellationTokenSource.Token);
+        var result = await session.Dispatch(async () => await Run(ctxt), cancellationTokenSource.Token);
         Dispatcher.UIThread.RunJobs();
         return result;
     }

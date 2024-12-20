@@ -3,7 +3,7 @@ using Xunit.Sdk;
 using Xunit.v3;
 
 namespace Avalonia.Headless.XUnit.v3;
-internal class AvaloniaDelayEnumeratedTheoryTestCase : XunitDelayEnumeratedTheoryTestCase
+internal class AvaloniaDelayEnumeratedTheoryTestCase : XunitDelayEnumeratedTheoryTestCase, ISelfExecutingXunitTestCase
 {
     /// <summary>
     /// Called by the de-serializer; should only be called by deriving classes for de-serialization purposes
@@ -47,12 +47,11 @@ internal class AvaloniaDelayEnumeratedTheoryTestCase : XunitDelayEnumeratedTheor
     {
     }
 
-    public override ValueTask<RunSummary> RunAsync(
+    public ValueTask<RunSummary> Run(
         ExplicitOption explicitOption,
-        IMessageBus messageBus,
-        object?[] constructorArguments,
-        ExceptionAggregator aggregator,
-        CancellationTokenSource cancellationTokenSource)
+        IMessageBus messageBus, object?[]
+        constructorArguments, ExceptionAggregator
+        aggregator, CancellationTokenSource cancellationTokenSource)
     {
         Guard.ArgumentNotNull(messageBus);
         Guard.ArgumentNotNull(constructorArguments);
@@ -62,7 +61,7 @@ internal class AvaloniaDelayEnumeratedTheoryTestCase : XunitDelayEnumeratedTheor
 
         // We need to block the XUnit thread to ensure its concurrency throttle is effective.
         // See https://github.com/AArnott/Xunit.StaFact/pull/55#issuecomment-826187354 for details.
-        return Task.Run(() => AvaloniaDelayEnumeratedTheoryTestCaseRunner.Instance.RunDispatcherAsync(
+        return Task.Run(() => AvaloniaTestCaseRunner.Instance.RunDispatcherAsync(
             session,
             this,
             messageBus,
