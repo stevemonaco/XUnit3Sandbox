@@ -1,6 +1,6 @@
 Unofficial example implementation of xunit.v3 preview for Avalonia Headless Platform. Ports `[AvaloniaFact]` and `[AvaloniaTheory]` from the official v2 implementation. Focuses on using MS Testing Platform. Not well-tested. Not intended for production.
 
-Currently targets xunit.v3 0.5.0-pre.27.
+Currently targets xunit.v3 1.0.0.
 
 What Works:
 
