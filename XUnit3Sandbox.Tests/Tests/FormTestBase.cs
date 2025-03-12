@@ -1,4 +1,5 @@
-﻿using Avalonia.Headless;
+﻿using Avalonia.Controls;
+using Avalonia.Headless;
 using XUnit3Sandbox.ViewModels;
 using XUnit3Sandbox.Views;
 

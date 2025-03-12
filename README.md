@@ -1,8 +1,8 @@
 Unofficial example implementation of xunit.v3 preview for Avalonia Headless Platform. Ports `[AvaloniaFact]` and `[AvaloniaTheory]` from the official v2 implementation. Focuses on using MS Testing Platform. Not well-tested. Not intended for production.
 
-Currently targets xunit.v3 1.0.0.
+Currently targets xunit.v3 2.0.0.
 
-What Works:
+What Works (as of targeting xunit.v3 1.0.0):
 
 * Test discovery in IDE
 * Running tests in IDE
@@ -32,7 +32,7 @@ Headless tests cannot run in parallel. Instead of enforcing this through several
 `xunit.runner.json`
 ```js
 {
-  "$schema": "https://xunit.net/schema/v3.0-alpha-1/xunit.runner.schema.json",
+  "$schema": "https://xunit.net/schema/v3.1/xunit.runner.schema.json",
   "parallelizeAssembly": false,
   "parallelizeTestCollections": false,
   "maxParallelThreads": 1

@@ -8,7 +8,9 @@ internal sealed class AvaloniaTestCase : XunitTestCase, ISelfExecutingXunitTestC
 {
     public AvaloniaTestCase(IXunitTestMethod testMethod, 
         string testCaseDisplayName, string uniqueID, 
-        bool @explicit, string? skipReason = null, 
+        bool @explicit,
+        Type[]? skipExceptions,
+        string? skipReason = null, 
         Type? skipType = null, 
         string? skipUnless = null, 
         string? skipWhen = null, 
@@ -17,7 +19,7 @@ internal sealed class AvaloniaTestCase : XunitTestCase, ISelfExecutingXunitTestC
         string? sourceFilePath = null, 
         int? sourceLineNumber = null, 
         int? timeout = null)
-        : base(testMethod, testCaseDisplayName, uniqueID, @explicit, skipReason, skipType, skipUnless, skipWhen, traits, testMethodArguments, sourceFilePath, sourceLineNumber, timeout)
+        : base(testMethod, testCaseDisplayName, uniqueID, @explicit, skipExceptions, skipReason, skipType, skipUnless, skipWhen, traits, testMethodArguments, sourceFilePath, sourceLineNumber, timeout)
     {
     }
 

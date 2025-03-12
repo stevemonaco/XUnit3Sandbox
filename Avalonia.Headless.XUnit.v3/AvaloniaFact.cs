@@ -32,6 +32,7 @@ internal sealed class AvaloniaUIFactDiscoverer : FactDiscoverer
             details.TestCaseDisplayName,
             details.UniqueID,
             details.Explicit,
+            details.SkipExceptions,
             details.SkipReason,
             details.SkipType,
             details.SkipUnless,

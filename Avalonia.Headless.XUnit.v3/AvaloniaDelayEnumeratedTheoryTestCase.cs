@@ -35,6 +35,7 @@ internal class AvaloniaDelayEnumeratedTheoryTestCase : XunitDelayEnumeratedTheor
         string uniqueID,
         bool @explicit,
         bool skipTestWithoutData,
+        Type[]? skipExceptions,
         string? skipReason = null,
         Type? skipType = null,
         string? skipUnless = null,
@@ -43,7 +44,7 @@ internal class AvaloniaDelayEnumeratedTheoryTestCase : XunitDelayEnumeratedTheor
         string? sourceFilePath = null,
         int? sourceLineNumber = null,
         int? timeout = null)
-        : base(testMethod, testCaseDisplayName, uniqueID, @explicit, skipTestWithoutData, skipReason, skipType, skipUnless, skipWhen, traits, sourceFilePath, sourceLineNumber, timeout)
+        : base(testMethod, testCaseDisplayName, uniqueID, @explicit, skipTestWithoutData, skipExceptions, skipReason, skipType, skipUnless, skipWhen, traits, sourceFilePath, sourceLineNumber, timeout)
     {
     }
 
