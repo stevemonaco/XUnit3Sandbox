@@ -2,7 +2,6 @@
 using Xunit.Internal;
 using Xunit.Sdk;
 using Xunit.v3;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Avalonia.Headless.XUnit.v3;
 internal sealed class AvaloniaTestCaseRunner : XunitTestCaseRunner
